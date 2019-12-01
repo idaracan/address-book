@@ -4,13 +4,13 @@ const app = express();
 const admin = require("firebase-admin");
 const serviceAccount = require("../private/firebase-admin.json");
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-});
-
-const db = admin.firestore();
-
 app.post("/contacts", (req, res) => {
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://address-book-1f08a.firebaseio.com"
+  });
+  const db = admin.firestore();
+
   const { contact } = req.body;
   const { userName } = req.body.user;
   const Contact = db.collection(userName).doc(contact.email);
