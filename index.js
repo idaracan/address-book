@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 
 // mongodb://backend:secure1@ds251158.mlab.com:51158/address-book
 mongoose.connect(
-  "mongodb://backend:secure1@ds251158.mlab.com:51158/address-book",
+  process.env.urlDB,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true

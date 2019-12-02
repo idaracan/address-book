@@ -1,5 +1,7 @@
-const express = require("express");
 const User = require("../models/user.js");
+const bcrypt = require("bcrypt-nodejs");
+const express = require("express");
+
 const app = express();
 
 app.post("/user", (req, res) => {
