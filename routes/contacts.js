@@ -1,4 +1,4 @@
-const serviceAccount = require("../private/firebase-admin.json");
+const serviceAccount = process.env.firebase_admin;
 const { checkToken } = require("../middlewares/validation.js");
 const admin = require("firebase-admin");
 const express = require("express");

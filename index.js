@@ -8,7 +8,6 @@ const port = process.env.PORT;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// mongodb://backend:secure1@ds251158.mlab.com:51158/address-book
 mongoose.connect(
   process.env.urlDB,
   {
