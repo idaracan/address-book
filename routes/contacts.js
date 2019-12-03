@@ -2,7 +2,7 @@ const serviceAccount = process.env.firebase_admin;
 const { checkToken } = require("../middlewares/validation.js");
 const admin = require("firebase-admin");
 const express = require("express");
-console.log(serviceAccount);
+
 const app = express();
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
