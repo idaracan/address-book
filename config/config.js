@@ -10,7 +10,10 @@ process.env = {
         type: process.env.firebase_admin_type,
         project_id: process.env.firebase_admin_project_id,
         private_key_id: process.env.firebase_admin_private_key_id,
-        private_key: process.env.firebase_admin_private_key,
+        private_key: process.env.firebase_admin_private_key.replace(
+          /\\n/g,
+          "\n"
+        ),
         client_email: process.env.firebase_admin_client_email,
         client_id: process.env.firebase_admin_client_id,
         auth_uri: process.env.firebase_admin_auth_uri,
