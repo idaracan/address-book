@@ -25,8 +25,7 @@ app.post("/login", (req, res) => {
       expiresIn: process.env.expiresIn
     });
     res.status(200).json({
-      ok: true,
-      user: dbUser,
+      message: `user ${dbUser.userName} logged in correctly`,
       token
     });
   });
