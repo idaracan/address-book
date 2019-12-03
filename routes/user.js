@@ -11,7 +11,9 @@ app.post("/user", (req, res) => {
     if (err) {
       return res.status(400).json({ ...err });
     }
-    return res.json({ message: "user saved", user: newUser });
+    return res
+      .status(200)
+      .json({ message: "created new user", userName: user.userName });
   });
 });
 module.exports = app;
