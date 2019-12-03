@@ -5,25 +5,26 @@ const User = require("../models/user");
 const app = express();
 
 app.post("/login", (req, res) => {
-  const body = req.body;
-  User.findOne({ userName: body.user.userName }, (err, dbUser) => {
+  const { userName, password } = req.body.user;
+  if (!(userName && password)) {
+    return res.status(400).json({ message: "insert username and password" });
+  }
+  User.findOne({ userName }, (err, dbUser) => {
     if (err) {
-      res.status(400).json({
-        ok: false,
+      res.status(500).json({
+        message: "Internal server error",
         err
       });
     }
-
-    if (!dbUser || dbUser.password !== body.user.password) {
+    if (!dbUser || dbUser.password !== password) {
       return res.status(400).json({
-        ok: false,
-        msg: "wrong user or password"
+        message: "wrong user or password"
       });
     }
     const token = jwt.sign({ user: dbUser }, process.env.SEED, {
       expiresIn: process.env.expiresIn
     });
-    res.json({
+    res.status(200).json({
       ok: true,
       user: dbUser,
       token

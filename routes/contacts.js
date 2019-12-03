@@ -1,5 +1,5 @@
 const serviceAccount = require("../private/firebase-admin.json");
-const User = require("../models/user.js");
+const { checkToken } = require("../middlewares/validation.js");
 const admin = require("firebase-admin");
 const express = require("express");
 
@@ -9,11 +9,31 @@ admin.initializeApp({
 });
 const db = admin.firestore();
 
-app.post("/contacts", (req, res) => {
+app.post("/contacts", [checkToken], (req, res) => {
   const { contact } = req.body;
   const { userName } = req.body.user;
-  const Contact = db.collection(userName).doc(contact.email);
-  Contact.set(contact);
-  return res.status(200).json({ message: `added contact` });
+  if (!contact.email) {
+    return res
+      .status(400)
+      .json({ message: "You need a contact mail to add contact data" });
+  }
+  const firebaseContact = db.collection(userName).doc(contact.email);
+  firebaseContact
+    .get()
+    .then(doc => {
+      if (!doc.exists) {
+        firebaseContact.set(contact);
+        return res
+          .status(200)
+          .json({ message: "added contact", contact: contact });
+      } else {
+        return res.status(400).json({ message: "contact already exists!" });
+      }
+    })
+    .catch(err => {
+      return res
+        .status(500)
+        .json({ message: "Internal server error", error: err });
+    });
 });
 module.exports = app;
